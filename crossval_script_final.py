@@ -12,12 +12,6 @@ from sklearn.model_selection import KFold
 from sklearn.model_selection import train_test_split
 from tensorflow.keras.layers.experimental import preprocessing
 
-# zero_padding = tf.zeros([16000] - tf.shape(waveform), dtype=tf.float32)
-# def get_spec(v):
-#     return tf.abs(tf.signal.stft(tf.concat([waveform, zero_padding], 0), frame_length=v, frame_step=v//2))
-# spec_range = [get_spec(v) for v in [255 + 35*i for i in range(11)]]
-
-# Set seed for experiment reproducibility
 seed = 42
 tf.random.set_seed(seed)
 np.random.seed(seed)
@@ -72,7 +66,6 @@ def load_create_data():
     waveform_ds = files_ds.map(get_waveform_and_label, num_parallel_calls=AUTOTUNE)
     spectrogram_ds = waveform_ds.map(get_spectrogram_and_label_id, num_parallel_calls=AUTOTUNE)
     return spectrogram_ds
-
 
 def create_model(input_shape, norm_layer, num_labels):
     model = models.Sequential([
